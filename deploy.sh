@@ -17,17 +17,18 @@ echo $lsb_dist
 
 if [[ "$lsb_dist" == "ubuntu" ]]; then
     #Setup Node
-    apt update
-    apt install curl
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-    source ~/.bashrc
-    nvm install node
+    apt update &&
+    apt install curl &&
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash &&
+    source ~/.bashrc &&
+    nvm install node &&
     #Setup ffmpeg
-    apt update
-    apt install ffmpeg
-    apt install git
-    git clone https://github.com/TungCuongHust/Benchmark.git
-    
+    apt update &&
+    apt install ffmpeg &&
+    apt install git &&
+    git clone https://github.com/TungCuongHust/Benchmark.git &&
+    cd Benchmark &&
+    npm install
 else
     if [[ "$lsb_dist" == "centos" ]]; then
         #Setup Node
@@ -40,7 +41,11 @@ else
                 yum install ffmpeg ffmpeg-devel &&
                 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash &&
                 source ~/.bashrc &&
-                nvm install node
+                nvm install node &&
+                yum install git &&
+                git clone https://github.com/TungCuongHust/Benchmark.git &&
+                cd Benchmark &&
+                npm install
         else
             #Setup ffmpeg for Centos 7
             yum install epel-release &&
@@ -50,26 +55,39 @@ else
                 yum update &&
                 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash &&
                 source ~/.bashrc &&
-                nvm install node
+                nvm install node &&
+                yum install git &&
+                git clone https://github.com/TungCuongHust/Benchmark.git &&
+                cd Benchmark &&
+                npm install
         fi
 
     else
         if [[ "$lsb_dist" == "alpine" ]]; then
             #Setup ffmpeg
-            apk add --update ffmpeg
+            apk add --update ffmpeg &&
             #Setup nodejs
-            apk add --update nodejs npm
+            apk add --update nodejs npm &&
+            #Setup git
+            apk add --update git &&
+            git clone https://github.com/TungCuongHust/Benchmark.git &&
+            cd Benchmark &&
+            npm install
         else
             if [[ "$lsb_dist" == "debian" ]]; then
                 #Setup ffmpeg
-                apt update
-                apt install ffmpeg
+                apt update &&
+                apt install ffmpeg &&
                 #Setup Node
-                apt update
+                apt update &&
                 apt install curl
-                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-                source ~/.bashrc
-                nvm install node
+                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash &&
+                source ~/.bashrc &&
+                nvm install node &&
+                apt install git &&
+                git clone https://github.com/TungCuongHust/Benchmark.git &&
+                cd Benchmark &&
+                npm install 
             fi
         fi
     fi
