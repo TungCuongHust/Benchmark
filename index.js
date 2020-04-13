@@ -1,9 +1,11 @@
 const { FFMpegProgress } = require('ffmpeg-progress-wrapper');
 const fs = require('fs')
+let capacityUnit = fs.readFileSync('capacity.json');
+let unit = JSON.parse(capacityUnit);
 const os = require('os-utils');
-const numberThread = 8
-let cpuInit = 0
+const numberThread = 100
 let rule = 1
+let number = 0
 if (fs.existsSync('output.mp4')) {
     fs.unlinkSync('output.mp4')
 }
@@ -19,41 +21,34 @@ const timeOut = (t) => {
         os.cpuUsage(async (v) => {
             cpuInit = v
             for (let i = 0; i < numberThread; ++i) {
-                const process = new FFMpegProgress('-re -stream_loop -1 -i input_480.mp4 -c:v libx264 -preset superfast -c:a copy -f mpegts udp://127.0.0.1:9999'.split(' '));
+                number = number + 1
+                console.log("Start process: " + (i + 1))
+                const startTime = Date.now()
+                const process = new FFMpegProgress('-re -stream_loop -1 -i input_1080.mp4 -c:v libx264 -preset veryfast -c:a copy -f mpegts udp://127.0.0.1:9999'.split(' '));
                 process.on('progress', async (progress) => {
                     console.log('Speed: ' + progress.speed)
                     os.cpuUsage(value => {
-                        const checkLimitCPU = value + (value - cpuInit) / numberThread
-                        if (progress.speed < 0.9) {
+                        if ((Date.now() - startTime) >= 55000 & (progress.speed < 0.97)) {
                             rule = 0
                         }
                         if (!rule) {
-                            console.log("This number thread is not available!!!")
-                            console.log("This speed: " + progress.speed)
+                            console.log("-----------------------------------------------------")
+                            console.log("Result: ")
+                            console.log("Number thread 1080p: " + (number - 1) + "  with veryfast preset")
+                            console.log("Capacity: " + Math.floor((number - 1) * unit["1080p"] * 8 / 7) + " unit with superfast preset")
+                            console.log("Capacity: " + (number - 1) * unit["1080p"] + " unit with veryfast preset")
+                            console.log("Capacity: " + Math.floor((number - 1) * unit["1080p"] * 1 / 3) + " unit with medium preset")
+                            console.log("------------------------------------------------------")
+                            process.exit(0)
                         }
                         else {
-                            if (checkLimitCPU > 1) {
-                                console.log("CPU Usage maximum!")
-                                console.log('CPU init: ' + cpuInit * 100 + ' %')
-                                console.log("CPU Usage for " + numberThread + " process ffmpeg: " + (value - cpuInit) * 100 + ' %')
-                                console.log("CPU total usage: " + value * 100 + ' %')
-                            }
-                            else {
-                                console.log('CPU init: ' + cpuInit * 100 + ' %')
-                                console.log("CPU Usage for " + numberThread + " process ffmpeg: " + (value - cpuInit) * 100 + ' %')
-                                console.log("CPU total usage: " + value * 100 + ' %')
-                                let count = 0
-                                while ((count + 1) * (value - cpuInit) / numberThread + cpuInit < 1) {
-                                    ++count
-                                }
-                                console.log("Expect can add " + count + " threads (this is based % CPU usage)")
-                                console.log("Expect total number thread: " + (count + numberThread))
-                            }
+                            console.log("CPU total usage: " + value * 100 + ' %')
+                            console.log("Number threads start: " + number)
                         }
                     })
                 });
                 process.once('end', console.log.bind(console, 'Conversion finished and exited with code'));
-                await timeOut(5000)
+                await timeOut(60000)
             }
         })
     }

@@ -6,9 +6,5 @@ source deploy.sh
 
 ##### Note: Các option trong quá trình cài đặt chọn yes
 
-* Sau khi cài đặt xong, test benchmark:
-
-``` 
-node index.js
-```
+- Kết quả sẽ hiện ra
 
