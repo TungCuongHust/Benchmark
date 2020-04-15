@@ -1,0 +1,9 @@
+{
+    "numberThread": 100,
+    "timeCheckStable": 25000,
+    "speedCheck": 0.97,
+    "timeAddProcess": 30000,
+    "inputThread": "input_1080.mp4",
+    "preset": "veryfast",
+    "encoder": "libx264"
+}

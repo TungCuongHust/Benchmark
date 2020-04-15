@@ -1,11 +1,13 @@
 {
-  "name": "BenchMarkLiveStream",
+  "name": "Benchmark",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": "bin.js",
   "license": "MIT",
   "dependencies": {
     "ffmpeg-progress-wrapper": "^1.1.6",
     "node-cmd": "^3.0.0",
-    "os-utils": "^0.0.14"
+    "os-utils": "0.0.14",
+    "pkg": "^4.4.7"
   }
 }
