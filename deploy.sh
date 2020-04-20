@@ -21,8 +21,7 @@ if [[ "$lsb_dist" == "ubuntu" ]]; then
         apt install ffmpeg &&
         apt install git &&
         git clone https://github.com/TungCuongHust/Benchmark.git &&
-        cd Benchmark &&
-        ./Benchmark-linux config.json capacity.json
+        cd Benchmark
     exit 0
 else
     if [[ "$lsb_dist" == "centos" ]]; then
@@ -35,8 +34,7 @@ else
                 yum install ffmpeg ffmpeg-devel &&
                 yum install git &&
                 git clone https://github.com/TungCuongHust/Benchmark.git &&
-                cd Benchmark &&
-                ./Benchmark-linux config.json capacity.json
+                cd Benchmark
             exit 0
         else
             #Setup ffmpeg for Centos 7
@@ -47,8 +45,7 @@ else
                 yum update &&
                 yum install git &&
                 git clone https://github.com/TungCuongHust/Benchmark.git &&
-                cd Benchmark &&
-                ./Benchmark-linux config.json capacity.json
+                cd Benchmark
             exit 0
         fi
 
@@ -59,8 +56,7 @@ else
                 #Setup git
                 apk add --update git &&
                 git clone https://github.com/TungCuongHust/Benchmark.git &&
-                cd Benchmark &&
-                ./Benchmark-linux config.json capacity.json
+                cd Benchmark
             exit 0
         else
             if [[ "$lsb_dist" == "debian" ]]; then
@@ -69,8 +65,7 @@ else
                     apt install ffmpeg &&
                     apt install git &&
                     git clone https://github.com/TungCuongHust/Benchmark.git &&
-                    cd Benchmark &&
-                    ./Benchmark-linux config.json capacity.json
+                    cd Benchmark
                 exit 0
             else
                 echo "The script failed"
